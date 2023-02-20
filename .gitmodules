@@ -1,0 +1,3 @@
+[submodule "mern-blog"]
+	path = mern-blog
+	url = https://github.com/dejwid/mern-blog.git
