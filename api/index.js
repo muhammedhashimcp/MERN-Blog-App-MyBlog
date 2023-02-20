@@ -18,15 +18,17 @@ app.use(cors({credentials:true,origin:'http://localhost:3000'}));
 app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
-
-mongoose.connect('mongodb+srv://blog:RD8paskYC8Ayj09u@cluster0.pflplid.mongodb.net/?retryWrites=true&w=majority');
+mongoose.set('strictQuery', false);
+mongoose.connect(
+	'mongodb+srv://blog-apps:fQ9XU2rzTL8WRIAx@cluster0.ltxeywx.mongodb.net/?retryWrites=true&w=majority'
+);
 
 app.post('/register', async (req,res) => {
   const {username,password} = req.body;
-  try{
+  try{ 
     const userDoc = await User.create({
       username,
-      password:bcrypt.hashSync(password,salt),
+      password:bcrypt.hashSync(password,salt), 
     });
     res.json(userDoc);
   } catch(e) {
@@ -43,9 +45,9 @@ app.post('/login', async (req,res) => {
     // logged in
     jwt.sign({username,id:userDoc._id}, secret, {}, (err,token) => {
       if (err) throw err;
-      res.cookie('token', token).json({
+      res.cookie('token', token).json({ 
         id:userDoc._id,
-        username,
+        username, 
       });
     });
   } else {
